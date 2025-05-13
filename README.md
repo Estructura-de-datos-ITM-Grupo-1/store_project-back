@@ -70,7 +70,7 @@ Store/
 ```bash
 # Clonar repositorio
 git clone [url-del-repositorio]
-cd inventario_tienda
+cd Store
 
 # Crear y activar entorno virtual
 python -m venv venv
@@ -91,10 +91,10 @@ DB_HOST=localhost
 DB_PORT=3306
 DB_USER=usuario_mysql
 DB_PASS=contraseña_segura
-DB_NAME=inventario_tienda
+DB_NAME=Store
 
 # Security
-SECRET_KEY=tu-clave-secreta-super-segura
+SECRET_KEY=clave-secreta
 ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
 
@@ -105,10 +105,10 @@ DEBUG=True
 ### 3. Configurar Base de Datos MySQL
 
 ```sql
-CREATE DATABASE inventario_tienda CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE Store CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE USER 'usuario_mysql'@'localhost' IDENTIFIED BY 'contraseña_segura';
-GRANT ALL PRIVILEGES ON inventario_tienda.* TO 'usuario_mysql'@'localhost';
+GRANT ALL PRIVILEGES ON Store.* TO 'usuario_mysql'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
