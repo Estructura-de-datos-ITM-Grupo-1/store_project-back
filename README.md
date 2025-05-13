@@ -1,4 +1,4 @@
-# 📦 Sistema de Inventario para Tienda de Maquillaje
+# 📦 Tienda de Maquillaje
 
 ## 🚀 Descripción
 
