@@ -1,52 +1,207 @@
-# Proyecto Backend con FastAPI, Uvicorn y ReactPy
+# 📦 Sistema de Inventario para Tienda de Maquillaje (FastAPI + MySQL)
 
-Este proyecto está desarrollado en **Python** y utiliza las siguientes tecnologías clave:
+## 🚀 Descripción
 
-- **FastAPI**
-- **Uvicorn**
-- **ReactPy**
+Backend moderno para gestión de inventario, facturación y cuadre de caja diseñado específicamente para tiendas de maquillaje, desarrollado con:
 
-A continuación, se detallan las funciones de cada tecnología, cómo instalarlas y cómo ejecutar el proyecto.
+- **FastAPI** (Framework web moderno y rápido)
+- **MySQL** (Base de datos relacional robusta)
+- **SQLAlchemy** (ORM para manejo de base de datos)
+- **JWT** (Autenticación segura)
 
----
+## 🌟 Características Principales
 
-## 📦 Tecnologías utilizadas
+✔️ Gestión completa de inventario  
+✔️ Sistema de facturación integrado  
+✔️ Cuadre de caja automatizado  
+✔️ Generación de reportes  
+✔️ Autenticación por roles (Admin, Caja, Soporte)  
+✔️ Documentación API interactiva incluida  
 
-### 🌀 FastAPI
-FastAPI es un moderno y eficiente framework web para construir APIs con Python. Su principal ventaja es la rapidez para desarrollar y su compatibilidad con tipado estático, validación automática de datos y documentación interactiva con Swagger.
+## 🛠️ Tecnologías
 
-En este proyecto, **FastAPI** se utiliza para definir las rutas de la aplicación, manejar la lógica del backend y exponer endpoints de forma sencilla.
+**Backend**:
+- Python 3.9+
+- FastAPI
+- Uvicorn (Servidor ASGI)
 
-### ⚡ Uvicorn
-Uvicorn es un servidor ASGI (Asynchronous Server Gateway Interface) rápido y ligero, ideal para correr aplicaciones hechas con FastAPI. Es compatible con características modernas como WebSockets y HTTP/2.
+**Base de Datos**:
+- MySQL 8.0+
+- SQLAlchemy ORM
+- Alembic (Para migraciones)
 
-En este proyecto, **Uvicorn** se encarga de ejecutar la aplicación FastAPI, permitiendo que esté disponible como un servidor web.
+**Autenticación**:
+- JWT (JSON Web Tokens)
+- OAuth2 con Password Flow
 
-### 🧩 ReactPy
-ReactPy (anteriormente llamado IDOM) permite crear interfaces de usuario reactivas directamente desde Python. Con esta herramienta puedes construir componentes similares a React, pero sin necesidad de escribir JavaScript.
+## 📂 Estructura del Proyecto
 
-En este proyecto, **ReactPy** se utiliza para construir una interfaz dinámica directamente desde el backend con Python, integrándose fácilmente con FastAPI.
+```
+inventario_tienda/
+├── app/
+│   ├── core/               # Configuraciones centrales
+│   ├── models/             # Modelos de base de datos
+│   ├── schemas/            # Esquemas Pydantic
+│   ├── api/                # Endpoints API
+│   │   ├── v1/             # Versión 1 de la API
+│   │   │   ├── endpoints/  # Todos los endpoints
+│   │   │   └── api.py      # Router principal
+│   ├── crud/              # Operaciones de base de datos
+│   ├── services/          # Lógica de negocio
+│   ├── utils/             # Utilidades comunes
+│   └── main.py            # App principal
+├── migrations/            # Migraciones de base de datos
+├── tests/                 # Pruebas automatizadas
+├── requirements.txt       # Dependencias
+├── .env                   # Variables de entorno
+└── README.md              # Este archivo
+```
 
----
+## 🚀 Primeros Pasos
 
-## ✅ Requisitos previos
+### Prerrequisitos
 
-- Python 3.8 o superior
-- pip (el gestor de paquetes de Python)
+- Python 3.9+
+- MySQL 8.0+ instalado y corriendo
+- Credenciales de acceso a MySQL
 
----
+### 1. Configuración Inicial
 
-## ⚙️ Instalación del entorno
+```bash
+# Clonar repositorio
+git clone [url-del-repositorio]
+cd inventario_tienda
 
-para instalar las dependencias del proyecto se realizan los siguientes pasos
+# Crear y activar entorno virtual
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+venv\Scripts\activate     # Windows
 
-- cd backend
-- pip install reactpy[fastapi]
-- pip install uvicorn[standard]
+# Instalar dependencias
+pip install -r requirements.txt
+```
 
+### 2. Configurar Variables de Entorno
 
-## Ejecución del backend
+Crear archivo `.env` en la raíz:
 
-Para ejecutar el backend se tiene que usar el siguiente comando
+```ini
+# Database
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=usuario_mysql
+DB_PASS=contraseña_segura
+DB_NAME=inventario_tienda
 
-- uvicorn app.modules.main:app --reload
+# Security
+SECRET_KEY=tu-clave-secreta-super-segura
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+
+# App
+DEBUG=True
+```
+
+### 3. Configurar Base de Datos MySQL
+
+```sql
+CREATE DATABASE inventario_tienda CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+CREATE USER 'usuario_mysql'@'localhost' IDENTIFIED BY 'contraseña_segura';
+GRANT ALL PRIVILEGES ON inventario_tienda.* TO 'usuario_mysql'@'localhost';
+FLUSH PRIVILEGES;
+```
+
+### 4. Ejecutar Migraciones
+
+```bash
+alembic upgrade head
+```
+
+### 5. Crear Usuario Admin Inicial
+
+```bash
+python -m app.utils.create_admin
+```
+
+### 6. Iniciar Servidor
+
+```bash
+uvicorn app.main:app --reload
+```
+
+La aplicación estará disponible en:  
+http://localhost:8000
+
+## 📚 Documentación de la API
+
+FastAPI genera automáticamente documentación interactiva:
+
+- **Swagger UI**: http://localhost:8000/docs  
+- **ReDoc**: http://localhost:8000/redoc  
+
+## 🔐 Autenticación
+
+El sistema usa JWT para autenticación. Ejemplo de flujo:
+
+1. **Login** (`POST /api/v1/auth/login`):
+```json
+{
+  "username": "admin",
+  "password": "admin123"
+}
+```
+
+2. **Usar token en requests**:
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsIn...
+```
+
+## 🌐 Endpoints Principales
+
+| Módulo         | Endpoint                     | Método | Descripción                  |
+|----------------|------------------------------|--------|------------------------------|
+| Autenticación  | `/api/v1/auth/login`         | POST   | Iniciar sesión               |
+| Usuarios       | `/api/v1/usuarios/`          | POST   | Crear usuario                |
+| Productos      | `/api/v1/productos/`         | GET    | Listar productos             |
+| Productos      | `/api/v1/productos/`         | POST   | Crear producto               |
+| Inventario     | `/api/v1/inventario/stock`   | PATCH  | Actualizar stock             |
+| Facturación    | `/api/v1/facturas/`          | POST   | Crear factura                |
+| Reportes       | `/api/v1/reportes/ventas`    | GET    | Generar reporte de ventas    |
+
+## 🧪 Ejecutar Pruebas
+
+```bash
+pytest tests/
+```
+
+## 🐳 Docker (Opcional)
+
+```bash
+docker-compose up --build
+```
+
+## 🚀 Despliegue en Producción
+
+Recomendaciones:
+- Usar **Gunicorn** + **Uvicorn** para producción
+- Configurar **HTTPS** con certificado SSL
+- Implementar **backups** automáticos de MySQL
+- Usar **Redis** para caché
+
+Ejemplo con Gunicorn:
+```bash
+gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app
+```
+
+## 🤝 Contribuir
+
+1. Haz fork del proyecto
+2. Crea tu rama (`git checkout -b feature/nueva-funcionalidad`)
+3. Haz commit de tus cambios (`git commit -am 'Añade nueva funcionalidad'`)
+4. Haz push a la rama (`git push origin feature/nueva-funcionalidad`)
+5. Abre un Pull Request
+
+## 📄 Licencia
+
+MIT License - Ver [LICENSE](LICENSE) para detalles.
