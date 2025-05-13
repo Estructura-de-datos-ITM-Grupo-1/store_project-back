@@ -37,24 +37,24 @@ Backend moderno para gestión de inventario, facturación y cuadre de caja dise�
 ## 📂 Estructura del Proyecto
 
 ```
-inventario_tienda/
+Store/
 ├── app/
-│   ├── core/               # Configuraciones centrales
-│   ├── models/             # Modelos de base de datos
-│   ├── schemas/            # Esquemas Pydantic
-│   ├── api/                # Endpoints API
-│   │   ├── v1/             # Versión 1 de la API
-│   │   │   ├── endpoints/  # Todos los endpoints
-│   │   │   └── api.py      # Router principal
-│   ├── crud/              # Operaciones de base de datos
-│   ├── services/          # Lógica de negocio
-│   ├── utils/             # Utilidades comunes
-│   └── main.py            # App principal
-├── migrations/            # Migraciones de base de datos
-├── tests/                 # Pruebas automatizadas
-├── requirements.txt       # Dependencias
-├── .env                   # Variables de entorno
-└── README.md              # Este archivo
+│   ├── core/                # Configuraciones centrales
+│   ├── models/              # Modelos de base de datos
+│   ├── schemas/             # Esquemas Pydantic
+│   ├── api/                 # Endpoints API
+│   │   ├── v1/              # Versión 1 de la API
+│   │   │   ├── endpoints/   # Todos los endpoints
+│   │   │   └── api.py       # Router principal
+│   ├── crud/                # Operaciones de base de datos
+│   ├── services/            # Lógica de negocio
+│   ├── utils/               # Utilidades comunes
+│   └── main.py              # App principal
+├── migrations/              # Migraciones de base de datos
+├── tests/                   # Pruebas automatizadas
+├── requirements.txt         # Dependencias
+├── .env                     # Variables de entorno
+└── README.md                # Descripcion del Proyecto
 ```
 
 ## 🚀 Primeros Pasos
