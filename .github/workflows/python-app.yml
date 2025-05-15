@@ -11,6 +11,7 @@ on:
 
 jobs:
   test:
+    name: "FastAPI Test Suite"  # Nombre que aparecerá en los checks
     runs-on: ubuntu-latest
     services:
       mysql:
