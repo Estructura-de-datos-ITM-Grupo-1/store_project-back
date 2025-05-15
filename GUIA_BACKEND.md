@@ -1,72 +1,76 @@
 
 # 👨‍💻 Guía para responsables del Backend
 
-📦 Repositorio oficial:  
-🔗 https://github.com/Estructura-de-datos-ITM-Grupo-1/store_project-back.git
+📦 **Repositorio oficial**:  
+🔗 [store_project-back](https://github.com/Estructura-de-datos-ITM-Grupo-1/store_project-back.git)
 
----
+### 🧩 Estructura de ramas
 
-## 🧩 Estructura de ramas
+- **main**: Rama estable y final del proyecto. Solo se actualiza con versiones aprobadas.
+- **dev**: Rama de integración común para pruebas y validaciones.
+- **feature/<modulo>**: Ramas personales para el desarrollo de cada módulo (cada desarrollador crea su rama).
 
-- `main`: rama estable y final del proyecto. Solo se actualiza con versiones aprobadas.
-- `dev`: rama de integración común para pruebas y validaciones.
-- `feature/<modulo>`: ramas personales para el desarrollo de cada módulo.
+### ✅ Pasos para trabajar correctamente
 
----
+#### 1️⃣ Clonar el repositorio
 
-## ✅ Pasos para trabajar correctamente
-
-### 1️⃣ Clona el repositorio
+Primero, clona el repositorio en tu máquina local. Abre la terminal y ejecuta los siguientes comandos:
 
 ```bash
 git clone https://github.com/Estructura-de-datos-ITM-Grupo-1/store_project-back.git
 cd store_project-back
-```
+````
 
----
+#### 2️⃣ Cambiar a la rama `dev`
 
-### 2️⃣ Cambia a la rama `dev`
+Para asegurarte de estar trabajando sobre la rama correcta, cambia a la rama `dev` (si no la tienes localmente, la creamos). Ejecuta:
 
 ```bash
 git checkout dev
 ```
 
-Si no tienes la rama `dev` local:
+Si recibes un error diciendo que no existe la rama `dev` localmente, ejecuta los siguientes comandos para obtenerla desde el repositorio remoto:
 
 ```bash
 git fetch origin
 git checkout -b dev origin/dev
 ```
 
----
+#### 3️⃣ Crear tu rama de trabajo
 
-### 3️⃣ Crea tu rama de trabajo
-
-Reemplaza `tu-modulo` por el nombre real de tu módulo (ej. `clientes`, `caja`, `facturacion`):
+Ahora, crea una rama nueva basada en `dev` para desarrollar tu módulo. Reemplaza `tu-modulo` por el nombre de tu módulo (por ejemplo, `clientes`, `facturacion`, etc.).
 
 ```bash
 git checkout -b feature/tu-modulo
 git push -u origin feature/tu-modulo
 ```
 
----
+**Ejemplo:**
+Si estás trabajando en el módulo "clientes", el comando sería:
 
-### 4️⃣ Desarrolla tu módulo
+```bash
+git checkout -b feature/clientes
+git push -u origin feature/clientes
+```
 
-📌 Estructura esperada:
+#### 4️⃣ Desarrollar tu módulo
 
-- Modelos: `/models/`
-- Esquemas: `/schemas/`
-- Rutas: `/routes/` o `/routers/`
-- Servicios: `/services/` (si aplica)
+Ya en tu rama, comienza a desarrollar tu módulo siguiendo la estructura esperada del proyecto:
 
-🧪 Ejecuta localmente con:
+* **Modelos**: `/models/`
+* **Esquemas**: `/schemas/`
+* **Rutas**: `/routes/` o `/routers/`
+* **Servicios**: `/services/` (si aplica)
+
+Para ejecutar el proyecto localmente, usa:
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
-Haz commits frecuentemente:
+#### 5️⃣ Haz commits frecuentemente
+
+Asegúrate de hacer commits frecuentemente para guardar tus avances. Para hacerlo:
 
 ```bash
 git add .
@@ -74,51 +78,53 @@ git commit -m "Avance en módulo <tu-modulo>"
 git push
 ```
 
----
+Reemplaza `<tu-modulo>` por el nombre del módulo en el que estás trabajando, por ejemplo: `"Avance en módulo clientes"`.
 
-### 5️⃣ Finaliza tu trabajo con un Pull Request (PR)
+#### 6️⃣ Finaliza tu trabajo con un Pull Request (PR)
 
-1. Entra al [repositorio](https://github.com/Estructura-de-datos-ITM-Grupo-1/store_project-back)
-2. Cambia a tu rama `feature/tu-modulo`
-3. Haz clic en **"Compare & pull request"**
-4. Verifica que sea hacia `dev`
-5. Título sugerido: `"Módulo clientes listo para revisión"`
-6. Enviar PR
+Cuando hayas terminado tu módulo, crea un Pull Request (PR) hacia la rama `dev`. Para hacerlo:
 
----
+1. Entra al repositorio en GitHub.
+2. Cambia a tu rama `feature/tu-modulo`.
+3. Haz clic en **"Compare & pull request"**.
+4. Verifica que la base del PR esté apuntando a la rama `dev`.
+5. Título sugerido del PR: `"Módulo <tu-modulo> listo para revisión"`.
+6. Envía el PR.
 
-### 6️⃣ Crea las tablas localmente (una vez tengas modelos nuevos)
+#### 7️⃣ Crear las tablas localmente (si has agregado nuevos modelos)
+
+Si has agregado o cambiado modelos en tu módulo, necesitas generar las tablas en tu base de datos local. Para hacerlo, ejecuta:
 
 ```bash
 python create_tables.py
 ```
 
-Esto generará el archivo `tienda.db` con todas las tablas actualizadas.
+Esto creará el archivo `tienda.db` con todas las tablas necesarias actualizadas.
 
 ---
 
-## 👥 Asignación de módulos y ramas
+### 👥 Asignación de módulos y ramas
 
-| Integrante  | Módulo            | Rama                       |
-|-------------|-------------------|----------------------------|
-| Persona 1   | Clientes           | `feature/clientes`         |
-| Persona 2   | Servicios          | `feature/servicios`        |
-| Persona 3   | Inventario         | `feature/inventario`       |
-| Persona 4   | Facturación        | `feature/facturacion`      |
-| Persona 5   | Cuadre de Caja     | `feature/caja`             |
-| Persona 6   | Reportes           | `feature/reportes`         |
-| Persona 7   | Usuarios / Config  | `feature/usuarios`         |
-
----
-
-## 📌 Reglas clave del equipo
-
-- 🚫 **No se trabaja directamente en `main`**
-- ✅ Solo se hace merge a `dev` desde ramas `feature/...` con funcionalidad comprobada
-- 🧹 Mantén el código modular y ordenado
-- 🧪 Prueba cada endpoint en Swagger antes de hacer un PR
+| Integrante | Módulo            | Rama                |
+| ---------- | ----------------- | ------------------- |
+| Persona 1  | Clientes          | feature/clientes    |
+| Persona 2  | Servicios         | feature/servicios   |
+| Persona 3  | Inventario        | feature/inventario  |
+| Persona 4  | Facturación       | feature/facturacion |
+| Persona 5  | Cuadre de Caja    | feature/caja        |
+| Persona 6  | Reportes          | feature/reportes    |
+| Persona 7  | Usuarios y Config | feature/usuarios    |
 
 ---
 
-📣 **¿Dudas o bloqueos?**  
-Contacta al líder técnico o integrador del proyecto.
+### 📌 Reglas clave del equipo
+
+* 🚫 **No se trabaja directamente en `main`**.
+* ✅ **Solo se hace merge a `dev` desde ramas `feature/...` con funcionalidad comprobada**.
+* 🧹 **Mantén el código modular y ordenado**.
+* 🧪 **Prueba cada endpoint en Swagger antes de hacer un PR**.
+
+### 📣 ¿Dudas o bloqueos?
+
+Si tienes alguna duda o te encuentras bloqueado, contacta al líder técnico o al integrador del proyecto.
+
