@@ -202,7 +202,8 @@ gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app
 4. Haz push a la rama (`git push origin feature/nueva-funcionalidad`)
 5. Abre un Pull Request
 
-Nota: Puedes consultar mas para contribuir en README_BACK.md
+**Nota:** Puedes consultar mas para contribuir en GUIA_BACK.md
+
 ## 📄 Licencia
 
 MIT License - Ver [LICENSE](LICENSE) para detalles.
