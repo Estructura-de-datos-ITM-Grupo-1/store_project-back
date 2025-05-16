@@ -7,7 +7,7 @@ def crear_servicio(db: Session, servicio: ServicioCreate):
     existente = db.query(Servicio).filter(Servicio.codigo_interno == servicio.codigo_interno).first()
     if existente:
         raise HTTPException(status_code=400, detail="Código de servicio ya existe")
-    nuevo = Servicio(**servicio.dict())
+    nuevo = Servicio(**servicio.model_dump())
     db.add(nuevo)
     db.commit()
     db.refresh(nuevo)
@@ -22,7 +22,7 @@ def obtener_servicio_por_id(db: Session, servicio_id: int):
 def actualizar_servicio(db: Session, servicio_id: int, data: ServicioUpdate):
     servicio = obtener_servicio_por_id(db, servicio_id)
     if servicio and not servicio.temporal:
-        for key, value in data.dict(exclude_unset=True).items():
+        for key, value in data.model_dump(exclude_unset=True).items():
             setattr(servicio, key, value)
         db.commit()
         db.refresh(servicio)
