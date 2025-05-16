@@ -196,10 +196,23 @@ gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app
 
 ## 🤝 Contribuir
 
-1. Crea tu rama (`git checkout -b feature/nueva-funcionalidad`)
-2. Haz commit de tus cambios (`git commit -am 'Añade nueva funcionalidad'`)
-3. Haz push a la rama (`git push origin feature/nueva-funcionalidad`)
-4. Abre un Pull Request
+1. Asegúrate de estar en la rama `dev` y actualízala:
+   `git checkout dev`
+   `git pull origin dev`
+2. Crea una nueva rama para tu módulo (`git checkout -b feature/nuevo-modulo`)
+3. Guarda tus cambios y haz commit
+   `git add .`
+   `git commit -m "Módulo <nombre> listo para revisión"`
+4. Haz push a la rama (`git push origin feature/nuevo-modulo`)
+5. Abre un Pull Request desde GitHub:
+
+    Ve al repositorio en GitHub.
+    Te aparecerá un botón para comparar y abrir un PR automáticamente (si no, ve a la pestaña "Pull requests" y haz clic en "New pull request").
+    Base: selecciona la rama dev.
+    Compare: selecciona tu rama feature/nuevo-modulo.
+    Título sugerido: "Módulo <nombre> listo para revisión".
+    Añade una breve descripción de lo que hiciste.
+    Haz clic en "Create pull request".
 
 **Nota:** Puedes consultar mas para contribuir en [GUIA_BACKEND](GUIA_BACKEND.md)
 
