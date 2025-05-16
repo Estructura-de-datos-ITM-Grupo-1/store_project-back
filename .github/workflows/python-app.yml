@@ -35,7 +35,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r Store/requirements.txt
-        pip install pytest pytest-cov mysqlclient
+        pip install pytest pytest-cov mysqlclient fastapi
         
     - name: Wait for MySQL
       run: sleep 15  # Espera a que MySQL esté listo
