@@ -46,5 +46,6 @@ jobs:
         DB_USER: root
         DB_PASS: root
         DB_NAME: test_db
+        PYTHONPATH: ${{ github.workspace }}/Store
       run: |
         pytest --cov=./ --cov-report=xml
