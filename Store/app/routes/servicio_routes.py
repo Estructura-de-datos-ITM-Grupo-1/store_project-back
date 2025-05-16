@@ -4,7 +4,7 @@ from app.schemas.servicio import ServicioCreate, ServicioUpdate, ServicioOut
 from app.services import ServicioService
 from app.core.deps import get_db
 
-router = APIRouter(prefix="/servicios", tags=["Servicios"])
+router = APIRouter(tags=["Servicios"])
 
 @router.post("/", response_model=ServicioOut)
 def crear(servicio: ServicioCreate, db: Session = Depends(get_db)):
