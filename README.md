@@ -196,11 +196,10 @@ gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app
 
 ## 🤝 Contribuir
 
-1. Haz fork del proyecto
-2. Crea tu rama (`git checkout -b feature/nueva-funcionalidad`)
-3. Haz commit de tus cambios (`git commit -am 'Añade nueva funcionalidad'`)
-4. Haz push a la rama (`git push origin feature/nueva-funcionalidad`)
-5. Abre un Pull Request
+1. Crea tu rama (`git checkout -b feature/nueva-funcionalidad`)
+2. Haz commit de tus cambios (`git commit -am 'Añade nueva funcionalidad'`)
+3. Haz push a la rama (`git push origin feature/nueva-funcionalidad`)
+4. Abre un Pull Request
 
 **Nota:** Puedes consultar mas para contribuir en [GUIA_BACKEND](GUIA_BACKEND.md)
 
