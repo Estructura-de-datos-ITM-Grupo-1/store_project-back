@@ -48,5 +48,6 @@ jobs:
         DB_PASS: root
         DB_NAME: test_db
         PYTHONPATH: ${{ github.workspace }}/Store
+        DATABASE_URL: mysql+pymysql://root:root@127.0.0.1/test_db
       run: |
         pytest --cov=./ --cov-report=xml
