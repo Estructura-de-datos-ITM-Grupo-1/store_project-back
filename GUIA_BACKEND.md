@@ -60,8 +60,8 @@ Ya en tu rama, comienza a desarrollar tu módulo siguiendo la estructura esperad
 * `models/`: (opcional) si defines estructuras internas
 * `schemas/`: Esquemas de validación con Pydantic
 * `routes/` o `routers/`: Endpoints de FastAPI
-* `services/`: Lógica de negocio y acceso a datos desde archivos .json, .csv, etc. ✅ ACTUALIZADO
-* `data/`: Aquí puedes guardar archivos como clientes.json, facturacion.csv, etc. ✅ NUEVO
+* `services/`: Lógica de negocio y acceso a datos desde archivos .json, .csv, etc.
+* `data/`: Aquí puedes guardar archivos como clientes.json, facturacion.csv, etc.
 
 Para ejecutar el proyecto localmente, usa:
 
