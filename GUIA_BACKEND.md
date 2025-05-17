@@ -57,10 +57,11 @@ git push -u origin feature/clientes
 
 Ya en tu rama, comienza a desarrollar tu módulo siguiendo la estructura esperada del proyecto:
 
-* **Modelos**: `/models/`
-* **Esquemas**: `/schemas/`
-* **Rutas**: `/routes/` o `/routers/`
-* **Servicios**: `/services/` (si aplica)
+* `models/`: (opcional) si defines estructuras internas
+* `schemas/`: Esquemas de validación con Pydantic
+* `routes/` o `routers/`: Endpoints de FastAPI
+* `services/`: Lógica de negocio y acceso a datos desde archivos .json, .csv, etc. ✅ ACTUALIZADO
+* `data/`: Aquí puedes guardar archivos como clientes.json, facturacion.csv, etc. ✅ NUEVO
 
 Para ejecutar el proyecto localmente, usa:
 
@@ -91,17 +92,18 @@ Cuando hayas terminado tu módulo, crea un Pull Request (PR) hacia la rama `dev`
 5. Título sugerido del PR: `"Módulo <tu-modulo> listo para revisión"`.
 6. Envía el PR.
 
-#### 7️⃣ Crear las tablas localmente (si has agregado nuevos modelos)
+#### 7️⃣ Cargar y leer los datos locales
 
-Si has agregado o cambiado modelos en tu módulo, necesitas generar las tablas en tu base de datos local. Para hacerlo, ejecuta:
+Si tu módulo necesita leer información, hazlo cargando los archivos desde la carpeta `Store/data/` usando funciones en `services/`.
 
-```bash
-python create_tables.py
+Ejemplo:
+
+```python
+import json
+def cargar_clientes():
+    with open("Store/data/clientes.json", "r") as f:
+        return json.load(f)
 ```
-
-Esto creará el archivo `tienda.db` con todas las tablas necesarias actualizadas.
-
----
 
 ### 👥 Asignación de módulos y ramas
 
