@@ -1,0 +1,22 @@
+[
+    {
+        "id": "1",
+        "nombre": "string",
+        "tipo_id": "string",
+        "numero_id": "string",
+        "telefono": "string",
+        "email": "user@example.com",
+        "direccion": "string",
+        "estado": "inactivo"
+    },
+    {
+        "id": "2",
+        "nombre": "string",
+        "tipo_id": "string",
+        "numero_id": "string",
+        "telefono": "12345667",
+        "email": "user@example.com",
+        "direccion": "string",
+        "estado": "activo"
+    }
+]

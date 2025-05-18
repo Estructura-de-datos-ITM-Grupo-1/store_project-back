@@ -1,0 +1,38 @@
+[
+    {
+        "fecha_hora": "2025-05-18 18:01:50",
+        "id_cliente": "1",
+        "accion": "registro",
+        "usuario": "administrador",
+        "campo": "",
+        "valor_anterior": "",
+        "valor_nuevo": ""
+    },
+    {
+        "fecha_hora": "2025-05-18 18:02:41",
+        "id_cliente": "2",
+        "accion": "registro",
+        "usuario": "administrador",
+        "campo": "",
+        "valor_anterior": "",
+        "valor_nuevo": ""
+    },
+    {
+        "fecha_hora": "2025-05-18 18:15:37",
+        "id_cliente": "2",
+        "accion": "modificacion",
+        "usuario": "administrador",
+        "campo": "telefono",
+        "valor_anterior": "string",
+        "valor_nuevo": "12345667"
+    },
+    {
+        "fecha_hora": "2025-05-18 18:16:07",
+        "id_cliente": "1",
+        "accion": "inactivacion",
+        "usuario": "administrador",
+        "campo": "",
+        "valor_anterior": "",
+        "valor_nuevo": ""
+    }
+]
