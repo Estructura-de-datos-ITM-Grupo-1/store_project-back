@@ -31,8 +31,9 @@ def setup_archivos(monkeypatch):
     # Limpieza después del test
     shutil.rmtree(TEST_DATA_DIR)
 
-
+# Tests unitarios para las funciones del módulo clientes.
 def test_registrar_cliente():
+    #Verifica la creación de un cliente con rol válido.
     cliente = cs.registrar_cliente(
         rol='administrador',
         nombre='Juan Pérez',
@@ -48,6 +49,7 @@ def test_registrar_cliente():
 
 
 def test_listar_clientes_activos():
+    #Verifica el listado de clientes actuales
     cs.registrar_cliente('administrador', 'Maria', 'CC', '456', '1234', 'maria@mail.com', 'Cra 45')
     activos = cs.listar_clientes_activos()
     assert len(activos) == 1
@@ -55,12 +57,14 @@ def test_listar_clientes_activos():
 
 
 def test_modificar_cliente():
+    #Verifica la modificacion de clientes
     cs.registrar_cliente('administrador', 'Carlos', 'CC', '789', '0000', 'carlos@mail.com', 'Calle Luna')
     modificado = cs.modificar_cliente('administrador', '1', 'telefono', '9999')
     assert modificado['telefono'] == '9999'
 
 
 def test_inactivar_cliente():
+    #Verifica el cambio de estado de los clientes, de activo a inactivo
     cs.registrar_cliente('administrador', 'Laura', 'CC', '321', '1111', 'laura@mail.com', 'Cra Sol')
     inactivado = cs.inactivar_cliente('administrador', '1')
     assert inactivado['estado'] == 'inactivo'
@@ -69,16 +73,19 @@ def test_inactivar_cliente():
 
 
 def test_error_rol_no_autorizado():
+    #verifica los roles no autorizados
     with pytest.raises(PermissionError):
         cs.registrar_cliente('visitante', 'No válido', 'CC', '000', '0000', 'x@mail.com', 'null')
 
 
 def test_modificar_cliente_inexistente():
+    # Verifica cuando un cliente no existe y se intenta modificar
     with pytest.raises(ValueError):
         cs.modificar_cliente('administrador', '999', 'telefono', '0000')
 
 
 def test_inactivar_cliente_ya_inactivo():
+    # Verifica cuando se quiere inactivar ya estan inactivo
     cs.registrar_cliente('administrador', 'Ana', 'CC', '111', '1111', 'ana@mail.com', 'Calle 1')
     cs.inactivar_cliente('administrador', '1')
     with pytest.raises(ValueError):
