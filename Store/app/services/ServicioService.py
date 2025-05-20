@@ -1,36 +1,78 @@
-from sqlalchemy.orm import Session
-from app.models.Servicio import Servicio
-from app.schemas.servicio import ServicioCreate, ServicioUpdate
+import json
+import os
+from datetime import datetime
+from typing import List, Optional
 from fastapi import HTTPException
+from app.schemas.servicio import ServicioCreate, ServicioUpdate, ServicioOut
 
-def crear_servicio(db: Session, servicio: ServicioCreate):
-    existente = db.query(Servicio).filter(Servicio.codigo_interno == servicio.codigo_interno).first()
-    if existente:
+DATA_FILE = os.path.join(os.path.dirname(__file__), "..", "data", "servicios.json")
+
+
+def _cargar_servicios() -> List[dict]:
+    if not os.path.exists(DATA_FILE):
+        return []
+    with open(DATA_FILE, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def _guardar_servicios(servicios: List[dict]):
+    with open(DATA_FILE, "w", encoding="utf-8") as f:
+        json.dump(servicios, f, indent=2, default=str)
+
+
+def crear_servicio(servicio: ServicioCreate) -> ServicioOut:
+    servicios = _cargar_servicios()
+    if any(s["codigo_interno"] == servicio.codigo_interno for s in servicios):
         raise HTTPException(status_code=400, detail="Código de servicio ya existe")
-    nuevo = Servicio(**servicio.model_dump())
-    db.add(nuevo)
-    db.commit()
-    db.refresh(nuevo)
-    return nuevo
+    nuevo_id = max([s["id"] for s in servicios], default=0) + 1
+    nuevo = {
+        "id": nuevo_id,
+        "codigo_interno": servicio.codigo_interno,
+        "descripcion": servicio.descripcion,
+        "valor_total": servicio.valor_total,
+        "temporal": servicio.temporal,
+        "creado_por": servicio.creado_por,
+        "fecha_creacion": datetime.utcnow().isoformat(),
+        "activo": True
+    }
+    servicios.append(nuevo)
+    _guardar_servicios(servicios)
+    return ServicioOut(**nuevo)
 
-def obtener_servicios(db: Session):
-    return db.query(Servicio).filter(Servicio.activo == True, Servicio.temporal == False).all()
 
-def obtener_servicio_por_id(db: Session, servicio_id: int):
-    return db.query(Servicio).filter(Servicio.id == servicio_id).first()
+def obtener_servicios() -> List[ServicioOut]:
+    servicios = _cargar_servicios()
+    activos = [s for s in servicios if s.get("activo") and not s.get("temporal")]
+    return [ServicioOut(**s) for s in activos]
 
-def actualizar_servicio(db: Session, servicio_id: int, data: ServicioUpdate):
-    servicio = obtener_servicio_por_id(db, servicio_id)
-    if servicio and not servicio.temporal:
-        for key, value in data.model_dump(exclude_unset=True).items():
-            setattr(servicio, key, value)
-        db.commit()
-        db.refresh(servicio)
-    return servicio
 
-def inactivar_servicio(db: Session, servicio_id: int):
-    servicio = obtener_servicio_por_id(db, servicio_id)
-    if servicio:
-        servicio.activo = False
-        db.commit()
-    return servicio
+def obtener_servicio_por_id(servicio_id: int) -> Optional[ServicioOut]:
+    servicios = _cargar_servicios()
+    for s in servicios:
+        if s["id"] == servicio_id:
+            return ServicioOut(**s)
+    return None
+
+
+def actualizar_servicio(servicio_id: int, data: ServicioUpdate) -> ServicioOut:
+    servicios = _cargar_servicios()
+    for idx, s in enumerate(servicios):
+        if s["id"] == servicio_id:
+            if s.get("temporal"):
+                raise HTTPException(status_code=400, detail="No se puede modificar un servicio temporal")
+            actualizado = {**s, **data.model_dump(exclude_unset=True)}
+            servicios[idx] = actualizado
+            _guardar_servicios(servicios)
+            return ServicioOut(**actualizado)
+    raise HTTPException(status_code=404, detail="Servicio no encontrado")
+
+
+def inactivar_servicio(servicio_id: int) -> ServicioOut:
+    servicios = _cargar_servicios()
+    for idx, s in enumerate(servicios):
+        if s["id"] == servicio_id:
+            s["activo"] = False
+            servicios[idx] = s
+            _guardar_servicios(servicios)
+            return ServicioOut(**s)
+    raise HTTPException(status_code=404, detail="Servicio no encontrado")
