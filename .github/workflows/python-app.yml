@@ -5,49 +5,37 @@ name: FastAPI CI/CD
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "dev"]
   pull_request:
-    branches: ["main"]
+    branches: ["main", "dev"]
 
 jobs:
   test:
-    name: "FastAPI Test Suite"  # Nombre que aparecerá en los checks
+    name: "FastAPI Test Suite" 
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: test_db
-        ports:
-          - "3306:3306"
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up Python 3.10
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: "3.10"
-        
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install pytest pytest-cov mysqlclient 
+        pip install pytest pytest-cov pylint
         pip check
-
-    - name: Wait for MySQL
-      run: sleep 15  # Espera a que MySQL esté listo
 
     - name: Run tests
       env:
-        DB_HOST: 127.0.0.1
-        DB_USER: root
-        DB_PASS: root
-        DB_NAME: test_db
         PYTHONPATH: ${{ github.workspace }}/Store
-        DATABASE_URL: mysql+pymysql://root:root@127.0.0.1/test_db
       run: |
         pytest --cov=./ --cov-report=xml
+
+    - name: Run linter
+      run: |
+        pylint Store
