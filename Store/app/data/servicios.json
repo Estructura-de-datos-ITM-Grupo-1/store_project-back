@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "codigo_interno": "TEST004",
+    "descripcion": "Servicio a inactivar",
+    "valor_total": 20000.0,
+    "temporal": false,
+    "creado_por": "tester",
+    "fecha_creacion": "2025-05-20T06:40:02.184044",
+    "activo": false
+  }
+]
