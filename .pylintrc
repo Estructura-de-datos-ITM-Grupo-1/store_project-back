@@ -1,0 +1,19 @@
+[MASTER]
+# Puntuación mínima
+min-similarity-lines=4
+max-args=5
+fail-under=9
+
+[REPORTS]
+# Puedes modificar el formato de salida para que sea más amigable
+output-format=colorized  # Hace la salida más visualmente atractiva en la consola
+
+# El formato predeterminado genera un informe en texto plano, pero podrías usar `html` si prefieres eso.
+# output-format=html
+
+[MESSAGES CONTROL]
+# Aquí puedes deshabilitar los mensajes que no te importan, para que no ensucien la salida
+disable=missing-docstring,invalid-name
+confidence=HIGH  # Ajusta el nivel de confianza que se requiere para los errores (puedes usar LOW, MEDIUM, HIGH)
+
+
