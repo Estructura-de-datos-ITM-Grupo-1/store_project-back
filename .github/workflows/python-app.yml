@@ -32,9 +32,9 @@ jobs:
 
     - name: Run tests
       env:
-        PYTHONPATH: ${{ github.workspace }}/Store
+        PYTHONPATH: ${{ github.workspace }}/store
       run: |
-        pytest --cov=./ --cov-report=xml
+        pytest --cov=store --cov-report=xml --cov-report=term
 
     - name: Run linter
       run: |
