@@ -38,5 +38,15 @@ jobs:
 
     - name: Run linter
       run: |
-        pylint store/**/*.py || echo "⚠️ Puntuación de pylint es baja, por favor mejore el código para alcanzar una puntuación minima 9/10."
-
+        result=$(pylint store/**/*.py)
+        echo "$result"
+        if echo "$result" | grep -q "Your code has been rated at"; then
+          score=$(echo "$result" | grep -oP 'rated at \K[\d\.]+')
+          if (( $(echo "$score < 10" | bc -l) )); then
+            echo "⚠️ Puntuación de pylint es baja: $score/10. Por favor mejore el código para alcanzar una puntuación de 10/10."
+          else
+            echo "✅ ¡Excelente! Puntuación de pylint es: $score/10."
+          fi
+        else
+          echo "❌ Error al ejecutar pylint."
+        fi
