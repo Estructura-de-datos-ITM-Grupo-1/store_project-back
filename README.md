@@ -75,11 +75,10 @@ Store/app/data/facturas.csv
 ### 3. Ejecutar servidor
 
 ```bash
-uvicorn app.main:app --reload
+uvicorn store.server:app --reload
 ```
 
-Accede a la app en:
-[http://localhost:8000](http://localhost:8000)
+Accede a la app en
 
 ## API
 
