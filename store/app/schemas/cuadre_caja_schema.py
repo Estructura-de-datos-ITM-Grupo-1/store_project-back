@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from datetime import date
 from typing import List
+from typing import Optional
 
 
 class VentaDetalle(BaseModel):
@@ -26,7 +27,7 @@ class CuadreCajaBase(BaseModel):
     base_caja: float
     total_ingresos: float
     total_egresos: float
-    comentario: str | None = None
+    comentario: Optional[str] = None
 
 class CuadreCajaCrear(CuadreCajaBase):
     efectivo_contado: float
