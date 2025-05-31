@@ -1,10 +1,10 @@
 from datetime import datetime
-from .Inventario_json import leer_json, escribir_json
-from ..models.Inventario_models import Producto
-from ..schemas.Inventario_schemas import ProductoOut, MotivoMovimiento
+from typing import Optional, List
+from .inventario_json import leer_json, escribir_json
+from ..schemas.inventario_schemas import ProductoOut, MotivoMovimiento
 
 ARCHIVO_INVENTARIO = "Inventario_data.json"
-ARCHIVO_MOVIMIENTOS = "movimientos.json"
+ARCHIVO_MOVIMIENTOS = "Inventario_movimientos_data.json" 
 
 class ProductoService:
     @staticmethod
@@ -31,12 +31,17 @@ class ProductoService:
         return ProductoOut(**nuevo_producto)
 
     @staticmethod
-    def actualizar_stock(
-        producto_id: int,
-        cantidad: int,
-        motivo: MotivoMovimiento,
-        usuario: str
-    ) -> ProductoOut:
+    def buscar_por_codigo(codigo: str) -> Optional[ProductoOut]:
+        productos = leer_json(ARCHIVO_INVENTARIO)
+        producto = next((p for p in productos if p["codigo_interno"] == codigo), None)
+        return ProductoOut(**producto) if producto else None
+
+    @staticmethod
+    def obtener_todos() -> List[ProductoOut]:
+        return [ProductoOut(**p) for p in leer_json(ARCHIVO_INVENTARIO)]
+
+    @staticmethod
+    def actualizar_stock(producto_id: int, cantidad: int, motivo: MotivoMovimiento, usuario: str) -> ProductoOut:
         productos = leer_json(ARCHIVO_INVENTARIO)
         movimientos = leer_json(ARCHIVO_MOVIMIENTOS)
 
@@ -44,7 +49,6 @@ class ProductoService:
         if not producto:
             raise ValueError("Producto no encontrado")
 
-      
         movimiento = {
             "producto_id": producto_id,
             "cantidad_anterior": producto["stock"],
@@ -56,7 +60,6 @@ class ProductoService:
         movimientos.append(movimiento)
         escribir_json(ARCHIVO_MOVIMIENTOS, movimientos)
 
-      
         producto["stock"] += cantidad
         producto["activo"] = producto["stock"] > 0
         escribir_json(ARCHIVO_INVENTARIO, productos)

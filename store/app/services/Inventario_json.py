@@ -13,6 +13,6 @@ def leer_json(nombre_archivo: str) -> List[Dict[str, Any]]:
 
 def escribir_json(nombre_archivo: str, datos: List[Dict[str, Any]]) -> None:
     ruta = DATA_DIR / nombre_archivo
-    ruta.parent.mkdir(exist_ok=True)  # Crea la carpeta si no existe
+    ruta.parent.mkdir(exist_ok=True) 
     with open(ruta, "w", encoding="utf-8") as file:
         json.dump(datos, file, indent=4, ensure_ascii=False)
