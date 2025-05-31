@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional, List
-from .inventario_json import leer_json, escribir_json
-from ..schemas.inventario_schemas import ProductoOut, MotivoMovimiento
+from .Inventario_json import leer_json, escribir_json
+from ..schemas.Inventario_schemas import ProductoOut, MotivoMovimiento
 
 ARCHIVO_INVENTARIO = "Inventario_data.json"
 ARCHIVO_MOVIMIENTOS = "Inventario_movimientos_data.json" 

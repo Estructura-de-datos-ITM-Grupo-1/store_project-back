@@ -1,0 +1,164 @@
+import pytest
+from datetime import datetime
+from store.services.inventario_service import ProductoService
+from store.schemas.inventario_schemas import ProductoCreate, ProductoUpdate, MotivoMovimiento
+from store.models.inventario_models import Producto
+
+# Fixtures para datos de prueba
+@pytest.fixture
+def producto_ejemplo():
+    return {
+        "codigo_interno": "TEST-001",
+        "nombre": "Producto Test",
+        "marca": "MarcaTest",
+        "referencia": "REF-TEST",
+        "colores": ["rojo", "azul"],
+        "stock": 15,
+        "valor_costo": 5.99,
+        "valor_venta": 12.99,
+        "categoria": "pruebas"
+    }
+
+@pytest.fixture
+def mock_json_files(tmp_path, monkeypatch):
+    # Configura archivos temporales
+    inventario_file = tmp_path / "Inventario_data.json"
+    movimientos_file = tmp_path / "Inventario_movimientos_data.json"
+    
+    # Mock de las funciones de lectura/escritura
+    def mock_leer_json(nombre_archivo):
+        if nombre_archivo == "Inventario_data.json":
+            if not inventario_file.exists():
+                return []
+            with open(inventario_file, "r") as f:
+                return json.load(f)
+        elif nombre_archivo == "Inventario_movimientos_data.json":
+            if not movimientos_file.exists():
+                return []
+            with open(movimientos_file, "r") as f:
+                return json.load(f)
+    
+    def mock_escribir_json(nombre_archivo, datos):
+        if nombre_archivo == "Inventario_data.json":
+            with open(inventario_file, "w") as f:
+                json.dump(datos, f)
+        elif nombre_archivo == "Inventario_movimientos_data.json":
+            with open(movimientos_file, "w") as f:
+                json.dump(datos, f)
+    
+    monkeypatch.setattr("store.services.inventario_service.leer_json", mock_leer_json)
+    monkeypatch.setattr("store.services.inventario_service.escribir_json", mock_escribir_json)
+    
+    return inventario_file, movimientos_file
+
+# Pruebas para ProductoService
+class TestProductoService:
+    def test_crear_producto(self, producto_ejemplo, mock_json_files):
+        # Prueba creación exitosa
+        producto = ProductoService.crear_producto(producto_ejemplo)
+        assert producto.id == 1
+        assert producto.nombre == "Producto Test"
+        assert producto.activo is True
+        
+        # Prueba código duplicado
+        with pytest.raises(ValueError, match="El código interno ya existe"):
+            ProductoService.crear_producto(producto_ejemplo)
+
+    def test_actualizar_stock(self, producto_ejemplo, mock_json_files):
+        # Crear producto de prueba
+        ProductoService.crear_producto(producto_ejemplo)
+        
+        # Prueba reposición de stock
+        producto_actualizado = ProductoService.actualizar_stock(
+            producto_id=1,
+            cantidad=5,
+            motivo=MotivoMovimiento.REPOSICION,
+            usuario="admin"
+        )
+        assert producto_actualizado.stock == 20
+        assert producto_actualizado.activo is True
+        
+        # Prueba venta (reducir stock)
+        producto_actualizado = ProductoService.actualizar_stock(
+            producto_id=1,
+            cantidad=-8,
+            motivo=MotivoMovimiento.VENTA,
+            usuario="vendedor"
+        )
+        assert producto_actualizado.stock == 12
+        
+        # Prueba stock cero
+        producto_actualizado = ProductoService.actualizar_stock(
+            producto_id=1,
+            cantidad=-12,
+            motivo=MotivoMovimiento.VENTA,
+            usuario="vendedor"
+        )
+        assert producto_actualizado.stock == 0
+        assert producto_actualizado.activo is False
+
+    def test_buscar_producto(self, producto_ejemplo, mock_json_files):
+        ProductoService.crear_producto(producto_ejemplo)
+        
+        # Prueba producto existente
+        producto = ProductoService.buscar_por_codigo("TEST-001")
+        assert producto is not None
+        assert producto.nombre == "Producto Test"
+        
+        # Prueba producto no existente
+        assert ProductoService.buscar_por_codigo("NO-EXISTE") is None
+
+    def test_obtener_todos(self, producto_ejemplo, mock_json_files):
+        # Prueba lista vacía
+        assert len(ProductoService.obtener_todos()) == 0
+        
+        # Prueba con datos
+        ProductoService.crear_producto(producto_ejemplo)
+        productos = ProductoService.obtener_todos()
+        assert len(productos) == 1
+        assert productos[0].codigo_interno == "TEST-001"
+
+# Pruebas para el Modelo Producto
+class TestProductoModel:
+    def test_to_dict(self):
+        producto = Producto(
+            id=1,
+            codigo_interno="MOD-001",
+            nombre="Modelo Test",
+            marca="MarcaTest",
+            referencia="REF-MOD",
+            colores=["verde"],
+            stock=8,
+            valor_costo=7.5,
+            valor_venta=15.0,
+            categoria="modelos"
+        )
+        
+        dict_producto = producto.to_dict()
+        assert isinstance(dict_producto, dict)
+        assert dict_producto["codigo_interno"] == "MOD-001"
+        assert dict_producto["stock"] == 8
+        assert "fecha_ingreso" in dict_producto
+
+# Pruebas para Schemas
+class TestSchemas:
+    def test_producto_create_validation(self):
+        # Prueba validación correcta
+        data_valido = {
+            "codigo_interno": "SCH-001",
+            "nombre": "Schema Test",
+            "marca": "MarcaTest",
+            "referencia": "REF-SCH",
+            "colores": ["amarillo"],
+            "stock": 10,
+            "valor_costo": 10.0,
+            "valor_venta": 20.0,
+            "categoria": "schemas"
+        }
+        producto = ProductoCreate(**data_valido)
+        assert producto.valor_venta == 20.0
+        
+        # Prueba validación fallida (valor_venta <= valor_costo)
+        data_invalido = {**data_valido, "valor_venta": 5.0}
+        with pytest.raises(ValueError, match="El valor de venta debe ser mayor al de costo"):
+            ProductoCreate(**data_invalido)
