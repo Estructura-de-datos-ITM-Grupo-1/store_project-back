@@ -1,10 +1,8 @@
 import pytest
 from datetime import datetime
-from store.services.inventario_service import ProductoService
-from store.schemas.inventario_schemas import ProductoCreate, ProductoUpdate, MotivoMovimiento
-from store.models.inventario_models import Producto
-
-# Fixtures para datos de prueba
+from store.services.Inventario_service import ProductoService
+from store.schemas.Inventario_schemas import ProductoCreate  
+from store.models.Inventario_models import Producto           
 @pytest.fixture
 def producto_ejemplo():
     return {
