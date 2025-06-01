@@ -5,45 +5,48 @@ name: FastAPI CI/CD
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "dev"]
   pull_request:
-    branches: ["main"]
+    branches: ["main", "dev"]
 
 jobs:
   test:
+    name: "FastAPI Test Suite" 
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: test_db
-        ports:
-          - "3306:3306"
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up Python 3.10
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: "3.10"
-        
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install pytest pytest-cov mysqlclient
-        
-    - name: Wait for MySQL
-      run: sleep 15  # Espera a que MySQL esté listo
+        pip install pytest pytest-cov pylint
+        pip check
 
     - name: Run tests
       env:
-        DB_HOST: 127.0.0.1
-        DB_USER: root
-        DB_PASS: root
-        DB_NAME: test_db
+        PYTHONPATH: ${{ github.workspace }}/store
       run: |
-        pytest --cov=./ --cov-report=xml
+        pytest --cov=store --cov-report=xml --cov-report=term
+
+    - name: Run linter
+      run: |
+        result=$(pylint store/**/*.py)
+        echo "$result"
+        if echo "$result" | grep -q "Your code has been rated at"; then
+          score=$(echo "$result" | grep -oP 'rated at \K[\d\.]+')
+          if (( $(echo "$score < 10" | bc -l) )); then
+            echo "⚠️ Puntuación de pylint es baja: $score/10. Por favor mejore el código para alcanzar una puntuación de 10/10."
+          else
+            echo "✅ ¡Excelente! Puntuación de pylint es: $score/10."
+          fi
+        else
+          echo "❌ Error al ejecutar pylint."
+        fi
