@@ -1,0 +1,10 @@
+[
+  {
+    "nombre_completo": "string",
+    "nombre_usuario" : "string",
+    "contrasena" : "string",
+    "correo" : "example@correo.com",
+    "rol" : "string",
+    "activo" : true
+  }
+]
