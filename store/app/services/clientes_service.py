@@ -2,45 +2,44 @@ import os
 import json
 from datetime import datetime
 from typing import List
-
-# Archivos de datos
-DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
-ARCHIVO_CLIENTES = os.path.join(DATA_DIR, 'clientes.json')
-ARCHIVO_AUDITORIA = os.path.join(DATA_DIR, 'auditoria_clientes.json')
+from app.core.paths import CLIENTES_JSON as ARCHIVO_CLIENTES
+from app.core.paths import AUDITORIA_CLIENTES_JSON as ARCHIVO_AUDITORIA
 
 # Roles autorizados para operaciones en clientes
 ROLES_PERMITIDOS = ['administrador', 'comercial']
 
-# -------------------- Seguridad --------------------
+# Seguridad 
 
 def verificar_rol(rol: str):
     if rol not in ROLES_PERMITIDOS:
         raise PermissionError("Acceso denegado: Rol no autorizado.")
 
-# -------------------- Utilidades de archivo --------------------
+# Utilidades
 
 def leer_clientes() -> List[dict]:
-    if not os.path.exists(ARCHIVO_CLIENTES):
+    try:
+        with open(ARCHIVO_CLIENTES, mode='r', encoding='utf-8') as f:
+            return json.load(f)
+    except FileNotFoundError:
         return []
-    with open(ARCHIVO_CLIENTES, mode='r', encoding='utf-8') as f:
-        return json.load(f)
 
 def escribir_clientes(clientes: List[dict]):
     with open(ARCHIVO_CLIENTES, mode='w', encoding='utf-8') as f:
         json.dump(clientes, f, indent=4, ensure_ascii=False)
 
-# -------------------- Registro de auditoría --------------------
+# Registro de auditoría 
 
 def registrar_auditoria(id_cliente: str, accion: str, usuario: str, campo: str = '', valor_anterior: str = '', valor_nuevo: str = ''):
-    auditoria = []
-    if os.path.exists(ARCHIVO_AUDITORIA):
+    try:
         with open(ARCHIVO_AUDITORIA, mode='r', encoding='utf-8') as f:
             auditoria = json.load(f)
-    
+    except FileNotFoundError:
+        auditoria = []
+
     nueva_entrada = {
         'fecha_hora': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
         'id_cliente': id_cliente,
-        'accion': accion,
+        'accion': accion.upper(),
         'usuario': usuario,
         'campo': campo,
         'valor_anterior': valor_anterior,
@@ -51,7 +50,7 @@ def registrar_auditoria(id_cliente: str, accion: str, usuario: str, campo: str =
     with open(ARCHIVO_AUDITORIA, mode='w', encoding='utf-8') as f:
         json.dump(auditoria, f, indent=4, ensure_ascii=False)
 
-# -------------------- Funcionalidades del módulo --------------------
+# Funcionalidades del módulo 
 
 def registrar_cliente(rol: str, nombre: str, tipo_id: str, numero_id: str, telefono: str, email: str, direccion: str):
     verificar_rol(rol)
