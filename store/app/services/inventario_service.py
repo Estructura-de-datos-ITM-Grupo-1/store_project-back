@@ -2,7 +2,7 @@ import os
 import json
 from datetime import datetime
 from typing import List, Optional
-from app.core.paths import INVENTARIO_JSON, INVENTARIO_MOVIMIENTOS_JSON
+from app.core.paths import INVENTARIO_JSON, MOVIMIENTOS_JSON
 
 
 def leer_inventario() -> List[dict]:
@@ -16,13 +16,13 @@ def escribir_inventario(data: List[dict]):
         json.dump(data, f, indent=4, ensure_ascii=False)
 
 def leer_movimientos() -> List[dict]:
-    if not os.path.exists(INVENTARIO_MOVIMIENTOS_JSON):
+    if not os.path.exists(MOVIMIENTOS_JSON):
         return []
-    with open(INVENTARIO_MOVIMIENTOS_JSON, "r", encoding="utf-8") as f:
+    with open(MOVIMIENTOS_JSON, "r", encoding="utf-8") as f:
         return json.load(f)
 
 def escribir_movimientos(data: List[dict]):
-    with open(INVENTARIO_MOVIMIENTOS_JSON, "w", encoding="utf-8") as f:
+    with open(MOVIMIENTOS_JSON, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
 
 # Funcionalidades 
