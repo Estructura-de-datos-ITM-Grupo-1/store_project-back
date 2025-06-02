@@ -4,8 +4,7 @@ from datetime import datetime
 from typing import List, Optional
 from fastapi import HTTPException
 from app.schemas.servicio import ServicioCreate, ServicioUpdate, ServicioOut
-
-DATA_FILE = os.path.join(os.path.dirname(__file__), "..", "data", "servicios.json")
+from app.core.paths import SERVICIOS_JSON as DATA_FILE
 
 
 def _cargar_servicios() -> List[dict]:
