@@ -1,0 +1,37 @@
+[
+  {
+    "fecha": "2025-06-02",
+    "usuario": "admin",
+    "base_caja": 500000,
+    "total_ingresos": 850000,
+    "total_egresos": 200000,
+    "comentario": "Todo correcto",
+    "efectivo_contado": 650000,
+    "ventas": [
+      {
+        "descripcion": "Servicio maquillaje",
+        "cantidad": 2,
+        "precio_unitario": 150000,
+        "metodo_pago": "Efectivo"
+      },
+      {
+        "descripcion": "Producto sombra",
+        "cantidad": 1,
+        "precio_unitario": 100000,
+        "metodo_pago": "Transferencia"
+      }
+    ],
+    "egresos": [
+      {
+        "fecha": "2025-06-02",
+        "motivo_egreso": "Compra insumos",
+        "valor": 200000,
+        "identificacion_receptor": "12345678"
+      }
+    ],
+    "utilidad": 650000,
+    "diferencia": 0,
+    "estado": "Correcto",
+    "dinero_consignar": 150000
+  }
+]

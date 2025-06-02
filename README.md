@@ -64,22 +64,21 @@ pip install -r requirements.txt
 
 ### 2. Estructura de Archivos
 
-Los datos se guardan en el directorio `Store/app/data/`. Asegúrate de que existan los archivos base como:
+Los datos se guardan en el directorio `store/app/data/`. Asegúrate de que existan los archivos base como:
 
 ```
-Store/app/data/usuarios.json
-Store/app/data/servicios.json
-Store/app/data/facturas.csv
+store/app/data/usuarios.json
+store/app/data/servicios.json
+store/app/data/facturas.csv
 ```
 
 ### 3. Ejecutar servidor
 
 ```bash
-uvicorn app.main:app --reload
+uvicorn store.server:app --reload
 ```
 
-Accede a la app en:
-[http://localhost:8000](http://localhost:8000)
+Accede a la app en
 
 ## API
 
