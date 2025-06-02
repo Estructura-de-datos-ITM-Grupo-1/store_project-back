@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from typing import List
-from app.schemas.inventario_schema import ProductoBase, MovimientoBase, ProductoOut, MovimientoOut
+from app.schemas.inventario_schema import ProductoBase, MovimientoInventario as MovimientoBase, ProductoRespuesta as ProductoOut
 from app.services import inventario_service
 
 router = APIRouter(tags=["Inventario"])
