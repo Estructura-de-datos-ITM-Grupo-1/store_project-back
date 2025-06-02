@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime
-from app.core.database import Base
+from store.app.core.paths import Base
 
 def utc_now():
     return datetime.now(timezone.utc)
