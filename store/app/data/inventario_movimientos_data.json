@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "producto_id": 1,
+    "tipo": "entrada",
+    "cantidad": 15,
+    "fecha": "2024-08-01T09:00:00"
+  },
+  {
+    "id": 2,
+    "producto_id": 1,
+    "tipo": "salida",
+    "cantidad": 5,
+    "fecha": "2024-08-02T14:30:00"
+  },
+  {
+    "id": 3,
+    "producto_id": 2,
+    "tipo": "entrada",
+    "cantidad": 40,
+    "fecha": "2024-08-03T11:00:00"
+  },
+  {
+    "id": 4,
+    "producto_id": 3,
+    "tipo": "entrada",
+    "cantidad": 30,
+    "fecha": "2024-08-04T10:15:00"
+  }
+]

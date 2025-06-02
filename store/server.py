@@ -8,7 +8,7 @@ from app.routes.servicio_routes import router as servicio_router
 from app.routes.cuadre_caja_routes import router as cuadre_caja_router
 from app.routes.usuario_routes import router as usuario_router
 from app.routes.auditoria_routes import router as auditoria_router
-from app.routes.Inventario_routes import router as inventario_router
+from app.routes.inventario_routes import router as inventario_router 
 
 app = FastAPI(
     title="Equipo Caja API",

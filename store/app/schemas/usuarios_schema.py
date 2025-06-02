@@ -1,14 +1,12 @@
-from pydantic import BaseModel, ConfigDict
-from typing import Optional
-from datetime import datetime
-
+from pydantic import BaseModel
+from typing import Optional, Literal
 
 class CrearUsuario(BaseModel):
     nombre_completo : str
     nombre_usuario : str
     contrasena : str
     correo : Optional[str] = None
-    rol : str
+    rol : Literal["administrador", "comercial", "vendedor"]
     
 class ModificarUsuario(BaseModel):
     campo: str
