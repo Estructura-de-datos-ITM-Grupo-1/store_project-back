@@ -1,48 +1,58 @@
 import json
-import os
-from datetime import datetime
-from typing import List, Optional
+from typing import List
 from fastapi import HTTPException
 from app.schemas.usuarios_schema import CrearUsuario, ModificarUsuario
-from app.models.usuarios_model import Usuario
+from app.core.paths import USUARIOS_JSON as DATA_FILE
 
 
-class Administracion_usuarios:
-    def __init__(self):
-        self.usuarios = {}
-                 
-    def crear_usuario(self, nombre_completo, nombre_usuario, contrasena, correo=None, rol=None):
-        if nombre_usuario in self.usuarios:
-            print("Error: El nombre de usuario ya existe.")
-            return
-        self.usuarios[nombre_usuario] = Usuario(nombre_completo, nombre_usuario, contrasena, correo, rol)
-        print(f"Usuario '{nombre_usuario}' creado exitosamente.")
-        
-    def modificar_usuario(self, nombre_usuario, nuevo_nombre=None, nueva_contrasena=None, nuevo_correo=None, nuevo_rol=None):
-        usuario = self.usuarios.get(nombre_usuario)
-        if not usuario:
-            print("Error: Usuario no encontrado.")
-            return
-        elif nuevo_nombre:
-            usuario.nombre_completo = nuevo_nombre
-        elif nueva_contrasena:
-            usuario.contrasena = nueva_contrasena
-        elif nuevo_correo is not None:
-            usuario.correo = nuevo_correo
-        elif nuevo_rol:
-            usuario.rol = nuevo_rol
-        print(f"Usuario '{nombre_usuario}' modificado correctamente.")
-        
-    def inactivar_usuario(self, nombre_usuario):
-        usuario = self.usuarios.get(nombre_usuario)
-        if not usuario:
-            print("Error: Usuario no encontrado.")
-            return
-        usuario.activo = False
-        print(f"Usuario '{nombre_usuario}' ha sido inactivado.")
-        
-    def mostrar_usuarios(self, solo_activos=True):
-        for usuario in self.usuarios.values():
-            if solo_activos and not usuario.activo:
-                continue
-            print(usuario)
+def _cargar_usuarios() -> List[dict]:
+    try:
+        with open(DATA_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return []
+
+
+def _guardar_usuarios(usuarios: List[dict]):
+    with open(DATA_FILE, "w", encoding="utf-8") as f:
+        json.dump(usuarios, f, indent=2)
+
+
+def crear_usuario(usuario: CrearUsuario):
+    usuarios = _cargar_usuarios()
+    if any(u["nombre_usuario"] == usuario.nombre_usuario for u in usuarios):
+        raise HTTPException(status_code=400, detail="El nombre de usuario ya existe")
+    nuevo = usuario.model_dump()
+    nuevo["activo"] = True
+    usuarios.append(nuevo)
+    _guardar_usuarios(usuarios)
+    return {"mensaje": "Usuario creado exitosamente"}
+
+
+def modificar_usuario(nombre_usuario: str, datos: ModificarUsuario):
+    usuarios = _cargar_usuarios()
+    for u in usuarios:
+        if u["nombre_usuario"] == nombre_usuario:
+            if datos.campo not in u:
+                raise HTTPException(status_code=400, detail="Campo inválido")
+            u[datos.campo] = datos.nuevo_valor
+            _guardar_usuarios(usuarios)
+            return {"mensaje": f"Usuario '{nombre_usuario}' modificado exitosamente"}
+    raise HTTPException(status_code=404, detail="Usuario no encontrado")
+
+
+def inactivar_usuario(nombre_usuario: str):
+    usuarios = _cargar_usuarios()
+    for u in usuarios:
+        if u["nombre_usuario"] == nombre_usuario:
+            u["activo"] = False
+            _guardar_usuarios(usuarios)
+            return {"mensaje": f"Usuario '{nombre_usuario}' ha sido inactivado"}
+    raise HTTPException(status_code=404, detail="Usuario no encontrado")
+
+
+def mostrar_usuarios(solo_activos: bool = True):
+    usuarios = _cargar_usuarios()
+    if solo_activos:
+        usuarios = [u for u in usuarios if u.get("activo")]
+    return usuarios
