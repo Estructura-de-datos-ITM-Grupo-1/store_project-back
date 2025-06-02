@@ -1,6 +1,6 @@
 from typing import List
-from fastapi import APIRouter, Depends
-from app.schemas.cuadre_caja_schema import CuadreCajaBase, ResumenVentas, EgresoDetalle, CuadreCajaCrear
+from fastapi import APIRouter, Depends, Query
+from app.schemas.cuadre_caja_schema import CuadreCajaBase, ResumenVentas, EgresoDetalle, CuadreCajaCrear, VentaDetalle
 from app.services.cuadre_caja_service import (
     calcular_utilidad, 
     organizar_ventas_por_metodo, 
@@ -17,14 +17,26 @@ def registrar_cuadre(cuadre: CuadreCajaBase):
     utilidad = calcular_utilidad(cuadre.total_ingresos, cuadre.total_egresos)
     return {"mensaje": "Cuadre registrado", "utilidad": utilidad}
 
-@router.post("/resumenventas/")
-def generar_resumen_ventas(resumen: ResumenVentas):
-    ventas_por_metodo = organizar_ventas_por_metodo(resumen.ventas)
-    
-    return {
-        "fecha": resumen.fecha,
-        "ventas_por_metodo": ventas_por_metodo
-    }
+@router.get("/organizar-ventas/")
+def generar_resumen_ventas(
+    metodos_pago: List[str] = Query([]),
+    descripciones: List[str] = Query([]),
+    cantidades: List[int] = Query([]),
+    precios_unitarios: List[float] = Query([])
+):
+    ventas = [
+        VentaDetalle(
+            descripcion=descripciones[i],
+            cantidad=cantidades[i],
+            precio_unitario=precios_unitarios[i],
+            metodo_pago=metodos_pago[i]
+        ) for i in range(len(metodos_pago))
+    ]
+
+    resumen = organizar_ventas_por_metodo(ventas)
+
+    return {"ventas_por_metodo": resumen}
+
 
 @router.post("/registro_egresos/")
 def registrar_egresos(egresos: List[EgresoDetalle]):

@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from datetime import date
 from typing import List
+from pydantic import BaseModel, Field
 
 
 class VentaDetalle(BaseModel):
@@ -13,6 +14,13 @@ class VentaDetalle(BaseModel):
 class ResumenVentas(BaseModel):
     fecha: date
     ventas: List[VentaDetalle]
+    
+class VentaDetalle(BaseModel):
+    descripcion: str = Field(..., min_length=1, max_length=255, title="Descripción del producto o servicio")
+    cantidad: int = Field(..., gt=0, title="Cantidad vendida")
+    precio_unitario: float = Field(..., gt=0, title="Precio unitario de la venta")
+    metodo_pago: str = Field(..., min_length=3, max_length=50, title="Método de pago utilizado")
+
 
 class EgresoDetalle(BaseModel):
     fecha: date

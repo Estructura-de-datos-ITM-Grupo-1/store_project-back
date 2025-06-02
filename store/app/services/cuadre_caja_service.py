@@ -7,7 +7,7 @@ def calcular_utilidad(ingresos: float, egresos: float) -> float:
     return ingresos - egresos
 
 
-def organizar_ventas_por_metodo(ventas: List[VentaDetalle]) -> dict:
+def organizar_ventas_por_metodo(ventas: List[VentaDetalle]) -> Dict[str, List[dict]]:
     resumen = defaultdict(list)
     for venta in ventas:
         resumen[venta.metodo_pago].append({

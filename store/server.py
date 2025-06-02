@@ -5,7 +5,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from fastapi import FastAPI
 from app.routes.cliente_routes import router as cliente_router
 from app.routes.servicio_routes import router as servicio_router
-from app.routes.caja_routes import router as caja_router
+from app.routes.cuadre_caja_routes import router as caja_router
 
 app = FastAPI(
     title="Equipo Caja API",
