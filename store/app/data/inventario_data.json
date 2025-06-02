@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "nombre": "Base líquida tono claro",
+    "codigo": "BASE001",
+    "stock": 25,
+    "precio_unitario": 45000
+  },
+  {
+    "id": 2,
+    "nombre": "Labial mate rojo intenso",
+    "codigo": "LAB002",
+    "stock": 40,
+    "precio_unitario": 25000
+  },
+  {
+    "id": 3,
+    "nombre": "Rímel a prueba de agua",
+    "codigo": "RIM003",
+    "stock": 30,
+    "precio_unitario": 30000
+  }
+]
