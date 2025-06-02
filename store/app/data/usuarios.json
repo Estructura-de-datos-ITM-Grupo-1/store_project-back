@@ -1,10 +1,26 @@
 [
   {
-    "nombre_completo": "string",
-    "nombre_usuario" : "string",
-    "contrasena" : "string",
-    "correo" : "example@correo.com",
-    "rol" : "string",
-    "activo" : true
+    "nombre_completo": "Ana Pérez",
+    "nombre_usuario": "admin1",
+    "contrasena": "admin123",
+    "correo": "ana.perez@tienda.com",
+    "rol": "administrador",
+    "activo": true
+  },
+  {
+    "nombre_completo": "Carlos Gómez",
+    "nombre_usuario": "vendedor1",
+    "contrasena": "venta123",
+    "correo": "carlos.gomez@tienda.com",
+    "rol": "vendedor",
+    "activo": true
+  },
+  {
+    "nombre_completo": "Laura Torres",
+    "nombre_usuario": "comercial1",
+    "contrasena": "comercial123",
+    "correo": "laura.torres@tienda.com",
+    "rol": "comercial",
+    "activo": true
   }
 ]
