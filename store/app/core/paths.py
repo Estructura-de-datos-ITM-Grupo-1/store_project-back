@@ -12,3 +12,4 @@ AUDITORIA_CLIENTES_JSON = os.path.abspath(os.path.join(DATA_DIR, "auditoria_clie
 CUADRE_CAJA_JSON = os.path.abspath(os.path.join(DATA_DIR, "cuadre_caja.json"))
 INVENTARIO_JSON = os.path.abspath(os.path.join(DATA_DIR, "inventario_data.json"))
 MOVIMIENTOS_JSON = os.path.abspath(os.path.join(DATA_DIR, "inventario_movimientos_data.json"))
+FACTURAS_JSON = os.path.abspath(os.path.join(DATA_DIR, "facturas.json"))

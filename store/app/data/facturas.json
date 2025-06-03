@@ -1,0 +1,24 @@
+[
+  {
+    "id": "1",
+    "cliente_id": "1",
+    "usuario": "admin",
+    "fecha_hora": "2025-06-02T14:30:00",
+    "items": [
+      {
+        "descripcion": "Base líquida",
+        "cantidad": 2,
+        "precio_unitario": 30000,
+        "total": 60000
+      },
+      {
+        "descripcion": "Sombras",
+        "cantidad": 1,
+        "precio_unitario": 45000,
+        "total": 45000
+      }
+    ],
+    "total_factura": 105000,
+    "metodo_pago": "Efectivo"
+  }
+]
