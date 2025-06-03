@@ -19,7 +19,16 @@ app = FastAPI(
     title="Tienda Maquillaje API",
     description="Sistema Tienda con autenticación JWT",
     version="1.0.0",
-    openapi_tags=[...]
+    openapi_tags=[
+        {"name": "Clientes", "description": "Gestión de clientes"},
+        {"name": "Usuarios", "description": "Autenticación y gestión de usuarios"},
+        {"name": "Auditoría", "description": "Seguimiento de cambios en clientes"},
+        {"name": "Servicios", "description": "Gestión de servicios ofrecidos"},
+        {"name": "Inventario", "description": "Gestión de productos y movimientos"},
+        {"name": "Cuadre Caja", "description": "Resumen y cuadre de caja"},
+        {"name": "Facturacion", "description": "Facturación y registros"},
+        {"name": "Reportes", "description": "Generación y exportación de reportes"}
+    ]
 )
 
 app.include_router(cliente_router, prefix="/api/v1/clientes")

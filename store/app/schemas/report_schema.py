@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, Dict, Union
 from datetime import date
 
 class ReportFilter(BaseModel):
@@ -10,4 +10,4 @@ class ReportFilter(BaseModel):
 class ReportOut(BaseModel):
     title: str
     total_items: int
-    summary: dict
+    summary: Dict[str, Union[str, int, float]]
