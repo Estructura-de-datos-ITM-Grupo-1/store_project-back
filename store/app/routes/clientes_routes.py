@@ -11,7 +11,7 @@ from app.services.clientes_service import (
 def get_current_user(): #VERSION PARA PRUEBAS, UNA VEZ SE TENGA EL AUTH REAL HAY QUE CAMBIAR ESTO
     return {"rol": "administrador"}
 
-router = APIRouter(prefix="/clientes", tags=["Clientes"])
+router = APIRouter(tags=["Clientes"])
 
 # Crear cliente
 @router.post("/", response_model=ClienteOut)

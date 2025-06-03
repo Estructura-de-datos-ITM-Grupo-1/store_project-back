@@ -6,3 +6,5 @@ pytest
 pytest-cov
 pylint
 email-validator>=2.0
+python-jose
+passlib
