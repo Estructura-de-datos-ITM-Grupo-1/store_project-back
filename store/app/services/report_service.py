@@ -1,8 +1,8 @@
 from datetime import date
 from typing import Dict
-from app.schemas.report import ReportFilter
+from app.schemas.report_schema import ReportFilter
+
 import csv
-import os
 
 def generate_report(filter_data: ReportFilter) -> Dict:
     # Aquí deberías consultar la base de datos o archivos según `report_type`

@@ -1,7 +1,8 @@
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
-from app.schemas.report import ReportFilter, ReportOut
+from app.schemas.report_schema import ReportFilter, ReportOut
 from app.services.report_service import generate_report, export_to_csv
+
 
 router = APIRouter(tags=["Reportes"])
 
