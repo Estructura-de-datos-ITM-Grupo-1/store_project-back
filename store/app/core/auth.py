@@ -3,7 +3,8 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from app.services.usuarios_service import obtener_usuario_por_username
+from app.utils.usuarios_helpers import obtener_usuario_por_username
+
 
 # Configuraciones
 SECRET_KEY = "supersecreto123"
@@ -16,8 +17,9 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/usuarios/login")
 def verificar_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
 
-def hashear_password(password):
+def encriptar_password(password: str) -> str:
     return pwd_context.hash(password)
+
 
 def crear_token_acceso(data: dict, expires_delta: timedelta = None):
     to_encode = data.copy()

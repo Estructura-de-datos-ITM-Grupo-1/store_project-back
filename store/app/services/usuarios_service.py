@@ -1,8 +1,11 @@
 # CONFIG DE USUARIOS
 import json
 from typing import List
+from typing import Union
 from fastapi import HTTPException
+from app.core.auth import encriptar_password 
 from app.schemas.usuarios_schema import CrearUsuario, ModificarUsuario
+from app.utils.usuarios_helpers import obtener_usuario_por_username
 from app.core.paths import USUARIOS_JSON as DATA_FILE
 
 
@@ -23,11 +26,14 @@ def crear_usuario(usuario: CrearUsuario):
     usuarios = _cargar_usuarios()
     if any(u["nombre_usuario"] == usuario.nombre_usuario for u in usuarios):
         raise HTTPException(status_code=400, detail="El nombre de usuario ya existe")
+    
     nuevo = usuario.model_dump()
+    nuevo["contrasena"] = encriptar_password(nuevo["contrasena"])  
     nuevo["activo"] = True
     usuarios.append(nuevo)
     _guardar_usuarios(usuarios)
     return {"mensaje": "Usuario creado exitosamente"}
+
 
 
 def modificar_usuario(nombre_usuario: str, datos: ModificarUsuario):
@@ -57,10 +63,3 @@ def mostrar_usuarios(solo_activos: bool = True):
     if solo_activos:
         usuarios = [u for u in usuarios if u.get("activo")]
     return usuarios
-
-def obtener_usuario_por_username(nombre_usuario: str) -> dict | None:
-    usuarios = _cargar_usuarios()
-    for usuario in usuarios:
-        if usuario["nombre_usuario"] == nombre_usuario:
-            return usuario
-    return None

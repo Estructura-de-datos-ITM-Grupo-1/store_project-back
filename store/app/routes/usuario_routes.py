@@ -22,8 +22,9 @@ def listar_usuarios(solo_activos: bool = Query(True, description="Mostrar solo u
     return usuarios_service.mostrar_usuarios(solo_activos)
 
 @router.post("/login", summary="Iniciar sesión y obtener token JWT")
+
 def login(datos: LoginRequest):
     usuario = verificar_credenciales(datos.nombre_usuario, datos.contrasena)
     if not usuario:
         raise HTTPException(status_code=401, detail="Credenciales inválidas")
-    return {"access_token": crear_token_acceso(usuario["nombre_usuario"])}
+    return {"access_token": crear_token_acceso({"sub": usuario["nombre_usuario"]})}
