@@ -3,6 +3,7 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from fastapi import FastAPI
+from fastapi.security import OAuth2PasswordBearer
 from app.routes.clientes_routes import router as cliente_router
 from app.routes.servicio_routes import router as servicio_router
 from app.routes.cuadre_caja_routes import router as cuadre_caja_router
@@ -11,11 +12,13 @@ from app.routes.auditoria_routes import router as auditoria_router
 from app.routes.inventario_routes import router as inventario_router 
 from app.routes.facturacion_routes import router as facturacion_router
 
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/usuarios/login")
 
 app = FastAPI(
-    title="Equipo Caja API",
-    description="API para gestión de tienda",
-    version="1.0.0"
+    title="Tienda Maquillaje API",
+    description="Sistema Tienda con autenticación JWT",
+    version="1.0.0",
+    openapi_tags=[...]
 )
 
 app.include_router(cliente_router, prefix="/api/v1/clientes")
@@ -25,3 +28,8 @@ app.include_router(inventario_router, prefix="/api/v1/inventario")
 app.include_router(cuadre_caja_router, prefix="/api/v1/caja")
 app.include_router(facturacion_router, prefix="/api/v1/facturacion")
 app.include_router(usuario_router, prefix="/api/v1/usuarios")
+
+
+
+
+

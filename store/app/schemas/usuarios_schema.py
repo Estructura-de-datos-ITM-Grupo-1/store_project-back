@@ -11,4 +11,9 @@ class CrearUsuario(BaseModel):
 class ModificarUsuario(BaseModel):
     campo: str
     nuevo_valor: str
+
+class LoginRequest(BaseModel):
+    nombre_usuario: str
+    contrasena: str
+
     

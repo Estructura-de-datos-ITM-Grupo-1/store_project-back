@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Query
-from app.schemas.usuarios_schema import CrearUsuario, ModificarUsuario
+from fastapi import APIRouter, Query, Depends, HTTPException
+from app.schemas.usuarios_schema import CrearUsuario, ModificarUsuario, LoginRequest
 from app.services import usuarios_service
+from app.core.auth import verificar_credenciales, crear_token_acceso, obtener_usuario_actual
 
 router = APIRouter(tags=["Usuarios"])
 
@@ -19,3 +20,10 @@ def inactivar_usuario(nombre_usuario: str):
 @router.get("/", summary="Listar usuarios")
 def listar_usuarios(solo_activos: bool = Query(True, description="Mostrar solo usuarios activos")):
     return usuarios_service.mostrar_usuarios(solo_activos)
+
+@router.post("/login", summary="Iniciar sesión y obtener token JWT")
+def login(datos: LoginRequest):
+    usuario = verificar_credenciales(datos.nombre_usuario, datos.contrasena)
+    if not usuario:
+        raise HTTPException(status_code=401, detail="Credenciales inválidas")
+    return {"access_token": crear_token_acceso(usuario["nombre_usuario"])}
