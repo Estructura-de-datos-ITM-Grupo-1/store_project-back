@@ -1,12 +1,18 @@
 from fastapi import APIRouter, HTTPException
 from typing import List
-from app.schemas.inventario_schema import ProductoBase, MovimientoInventario as MovimientoBase, ProductoRespuesta as ProductoOut
 from app.services import inventario_service
+from app.schemas.inventario_schema import (
+    ProductoIn,
+    ProductoOut,
+    MovimientoIn,
+    MovimientoOut
+)
+
 
 router = APIRouter(tags=["Inventario"])
 
 @router.post("/producto", response_model=ProductoOut)
-def crear_producto(producto: ProductoBase):
+def crear_producto(producto: ProductoIn):
     return inventario_service.registrar_producto(
         nombre=producto.nombre,
         categoria=producto.categoria,
@@ -18,7 +24,7 @@ def listar_productos():
     return inventario_service.listar_productos_activos()
 
 @router.post("/movimiento", response_model=MovimientoOut)
-def registrar_movimiento(mov: MovimientoBase):
+def registrar_movimiento(mov: MovimientoIn):
     try:
         return inventario_service.registrar_movimiento(
             id_producto=mov.id_producto,
