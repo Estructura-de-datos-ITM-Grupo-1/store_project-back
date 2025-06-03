@@ -57,3 +57,10 @@ def mostrar_usuarios(solo_activos: bool = True):
     if solo_activos:
         usuarios = [u for u in usuarios if u.get("activo")]
     return usuarios
+
+def obtener_usuario_por_username(nombre_usuario: str) -> dict | None:
+    usuarios = _cargar_usuarios()
+    for usuario in usuarios:
+        if usuario["nombre_usuario"] == nombre_usuario:
+            return usuario
+    return None
