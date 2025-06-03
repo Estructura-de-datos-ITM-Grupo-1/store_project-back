@@ -2,24 +2,20 @@ from pydantic import BaseModel
 from typing import Optional, Literal
 from datetime import datetime
 
-
-class ProductoBase(BaseModel):
+# Entrada del producto al crear o modificar
+class ProductoIn(BaseModel):
     codigo: str
     nombre: str
     descripcion: Optional[str] = None
     precio_unitario: float
     cantidad: int
 
-
-class ProductoCrear(ProductoBase):
-    pass
-
-
-class ProductoRespuesta(ProductoBase):
+# Salida del producto (lo que se devuelve al cliente)
+class ProductoOut(ProductoIn):
     id: str
 
-
-class MovimientoInventario(BaseModel):
+# Entrada de un movimiento (cuando se hace un registro)
+class MovimientoIn(BaseModel):
     producto_id: str
     tipo: Literal["entrada", "salida"]
     cantidad: int
@@ -27,5 +23,5 @@ class MovimientoInventario(BaseModel):
     fecha_hora: datetime
     observaciones: Optional[str] = None
 
-class MovimientoOut(MovimientoBase):
-    fecha_hora: datetime
+class MovimientoOut(MovimientoIn):
+    id: str 
