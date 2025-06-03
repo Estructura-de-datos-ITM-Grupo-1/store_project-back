@@ -43,3 +43,9 @@ def obtener_usuario_actual(token: str = Depends(oauth2_scheme)):
     if usuario is None:
         raise credenciales_invalidas
     return usuario
+
+def verificar_credenciales(nombre_usuario: str, contrasena: str):
+    usuario = obtener_usuario_por_username(nombre_usuario)
+    if usuario and verificar_password(contrasena, usuario["contrasena"]):
+        return usuario
+    return None
