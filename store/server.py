@@ -17,8 +17,9 @@ app = FastAPI(
 )
 
 app.include_router(cliente_router, prefix="/api/v1/clientes")
+app.include_router(auditoria_router, prefix="/api/v1/auditoria")
 app.include_router(servicio_router, prefix="/api/v1/servicios")
+app.include_router(inventario_router, prefix="/api/v1/inventario")
 app.include_router(cuadre_caja_router, prefix="/api/v1/caja")
 app.include_router(usuario_router, prefix="/api/v1/usuarios")
-app.include_router(auditoria_router, prefix="/api/v1/auditoria")
-app.include_router(inventario_router, prefix="/api/v1/inventario")
+
