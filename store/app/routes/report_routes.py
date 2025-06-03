@@ -3,7 +3,7 @@ from fastapi.responses import FileResponse
 from app.schemas.report import ReportFilter, ReportOut
 from app.services.report_service import generate_report, export_to_csv
 
-router = APIRouter(prefix="/reportes", tags=["Reportes"])
+router = APIRouter(tags=["Reportes"])
 
 @router.post("/", response_model=ReportOut)
 def get_report(filtros: ReportFilter):
