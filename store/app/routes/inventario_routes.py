@@ -20,7 +20,7 @@ def crear_producto(producto: ProductoIn):
 
 @router.get("/productos", response_model=List[ProductoOut])
 def listar_productos():
-    return inventario_service.listar_productos_activos()
+    return inventario_service.obtener_stock()
 
 @router.post("/movimiento", response_model=MovimientoOut)
 def registrar_movimiento(mov: MovimientoIn):

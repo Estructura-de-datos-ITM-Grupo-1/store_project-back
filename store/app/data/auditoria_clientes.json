@@ -34,5 +34,23 @@
         "campo": "",
         "valor_anterior": "",
         "valor_nuevo": ""
+    },
+    {
+        "fecha_hora": "2025-06-02 23:25:48",
+        "id_cliente": "4",
+        "accion": "REGISTRO",
+        "usuario": "administrador",
+        "campo": "",
+        "valor_anterior": "",
+        "valor_nuevo": ""
+    },
+    {
+        "fecha_hora": "2025-06-02 23:26:18",
+        "id_cliente": "4",
+        "accion": "INACTIVACION",
+        "usuario": "administrador",
+        "campo": "",
+        "valor_anterior": "",
+        "valor_nuevo": ""
     }
 ]

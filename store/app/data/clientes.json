@@ -1,32 +1,42 @@
 [
-  {
-    "id": "1",
-    "nombre": "María Fernanda Ruiz",
-    "tipo_id": "CC",
-    "numero_id": "1032456789",
-    "telefono": "3124567890",
-    "email": "maria.ruiz@example.com",
-    "direccion": "Carrera 45 #32-10, Medellin",
-    "estado": "activo"
-  },
-  {
-    "id": "2",
-    "nombre": "Luisa Martínez",
-    "tipo_id": "CC",
-    "numero_id": "1045897632",
-    "telefono": "3112345678",
-    "email": "luisa.martinez@example.com",
-    "direccion": "Calle 12 #45-67, Montería",
-    "estado": "activo"
-  },
-  {
-    "id": "3",
-    "nombre": "Camila Ochoa",
-    "tipo_id": "CC",
-    "numero_id": "1045895432",
-    "telefono": "3206545690",
-    "email": "cami.ochoa@example.com",
-    "direccion": "Calle 34 #45-98, Cali",
-    "estado": "inactivo"
-  }
+    {
+        "id": "1",
+        "nombre": "María Fernanda Ruiz",
+        "tipo_id": "CC",
+        "numero_id": "1032456789",
+        "telefono": "3124567890",
+        "email": "maria.ruiz@example.com",
+        "direccion": "Carrera 45 #32-10, Medellin",
+        "estado": "activo"
+    },
+    {
+        "id": "2",
+        "nombre": "Luisa Martínez",
+        "tipo_id": "CC",
+        "numero_id": "1045897632",
+        "telefono": "3112345678",
+        "email": "luisa.martinez@example.com",
+        "direccion": "Calle 12 #45-67, Montería",
+        "estado": "activo"
+    },
+    {
+        "id": "3",
+        "nombre": "Camila Ochoa",
+        "tipo_id": "CC",
+        "numero_id": "1045895432",
+        "telefono": "3206545690",
+        "email": "cami.ochoa@example.com",
+        "direccion": "Calle 34 #45-98, Cali",
+        "estado": "inactivo"
+    },
+    {
+        "id": "4",
+        "nombre": "string",
+        "tipo_id": "string",
+        "numero_id": "string",
+        "telefono": "string",
+        "email": "user@example.com",
+        "direccion": "string",
+        "estado": "inactivo"
+    }
 ]
