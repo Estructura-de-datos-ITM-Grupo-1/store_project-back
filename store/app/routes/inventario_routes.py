@@ -8,7 +8,6 @@ from app.schemas.inventario_schema import (
     MovimientoOut
 )
 
-
 router = APIRouter(tags=["Inventario"])
 
 @router.post("/producto", response_model=ProductoOut)
