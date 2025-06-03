@@ -26,3 +26,6 @@ class MovimientoInventario(BaseModel):
     usuario: str
     fecha_hora: datetime
     observaciones: Optional[str] = None
+
+class MovimientoOut(MovimientoBase):
+    fecha_hora: datetime
