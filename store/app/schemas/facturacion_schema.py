@@ -13,6 +13,7 @@ class FacturaCrear(BaseModel):
     items: List[ItemFactura]
     total: float
     observaciones: Optional[str] = None
+    usuario: str
 
 class FacturaRespuesta(FacturaCrear):
     id: str
