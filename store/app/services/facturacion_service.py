@@ -18,11 +18,14 @@ def escribir_facturas(data):
 
 def crear_factura(factura: FacturaCrear) -> FacturaRespuesta:
     facturas = leer_facturas()
+
     nueva = factura.dict()
     nueva["id"] = str(uuid.uuid4())
     nueva["fecha"] = datetime.now().isoformat()
+
     facturas.append(nueva)
     escribir_facturas(facturas)
+
     return FacturaRespuesta(**nueva)
 
 def obtener_facturas():
